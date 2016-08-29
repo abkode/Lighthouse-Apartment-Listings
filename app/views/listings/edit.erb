@@ -1,0 +1,43 @@
+<div id="overlay" style="opacity: 0.5;"></div>
+
+<div id="contents" class="text-center"> 
+
+<div class="create-form-container">
+  <div>
+    <% if @listing && @listing.errors.any? %>
+      <div>
+        <ul>
+          <% @listing.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+
+<div id="divform">
+  <h1 class="h1">Edit your listing for</h1>
+  <form method="post" action="/listing/<%= @listing.id %>" class="form-horizontal">
+
+      <div class="form-group">
+        <input placeholder="Street address:" type="text" name="listing[street_address]" class="form-control input-lg" value="<%= @listing && @listing.street_address %>">
+      </div>
+      <div class="form-group">
+        <input placeholder="Monthly rent:" type="text" name="listing[price]" class="form-control input-lg" value="<%= @listing && @listing.price %>">
+      </div>
+      <div class="form-group">
+        <input placeholder="Square feet:" type="text" name="listing[area]" class="form-control input-lg" value="<%= @listing && @listing.area %>">
+      </div>
+      <div class="form-group">
+        <input placeholder="No. of bedrooms" type="text" name="listing[bedrooms]" class="form-control input-lg" value="<%= @listing && @listing.bedrooms %>">
+      </div>
+      <div class="form-group">
+        <input placeholder="No. of bathrooms" type="text" name="listing[bathrooms]" class="form-control input-lg" value="<%= @listing && @listing.bathrooms %>">
+      </div>
+
+    <div class="footer text-center">
+      <input class="btn btn-warning" type="submit">
+    </div>
+  </form>
+</div>

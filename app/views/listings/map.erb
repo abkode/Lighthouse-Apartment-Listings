@@ -1,0 +1,99 @@
+<div id="overlay" style="opacity: 0.5;"></div>
+
+<div id="contents" class="text-center">  
+  <h1 id="heading">Lighthouse Listings <br/><small>Rentals in the Greater Vancouver area</small></h1>
+
+  <div id="maindv">
+    <div id="map" style="min-width: 600px; min-height: 600px;"></div>
+  </div>
+
+<div id="sidr">
+  <!-- Your content -->
+  <br>
+  <br>
+  <p>Enter your search preferences below to filter the map!</p>
+  
+
+  <div class="search-form">
+    <form id="map_form">
+      <div>
+        <input placeholder="Maximum Budget:" type="text" name="price" value="<%= @listing && @listing.price %>">
+      </div>
+      <div>
+        <input placeholder="Minimum Square Footage:" type="text" name="area" value="<%= @listing && @listing.area %>">
+      </div>
+      <div>
+        <input placeholder="Minimum Bedrooms?" type="text" name="bedrooms" value="<%= @listing && @listing.bedrooms %>">
+      </div>
+      <div>
+        <input placeholder="Minimum Bathrooms?" type="text" name="bathrooms" value="<%= @listing && @listing.bathrooms %>">
+      </div>
+      <div>
+
+        <input class="btn btn-warning" type="submit" name="submit">
+        <br>
+        <br>
+        <a id="close-menu" href="#sidr"> Close </a>
+
+      </div>
+    </form>
+
+  </div>
+
+  <br>
+
+  <div class="notified-listings">
+  <% if @notifications %>
+
+  <h3> Listings that matched your preferences: </h3>
+  <br>
+
+    <% @notifications.each do |notification| %>
+      <div class="notification">
+        <a href="/listings/<%= notification.id %>/details"><p> <%= notification.user.first_name.capitalize %> made a listing: 
+        <%= notification.bedrooms %> Bedrooms, 
+        <%= notification.bathrooms %> Bathrooms, 
+        <%= notification.area %> square feet, 
+        $<%= notification.price %> monthly at 
+        <%= notification.street_address %> </p></a>
+      </div>
+    <% end %>
+  <% end %>
+
+  </div>
+</div>
+
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $('#simple-menu').sidr({
+      side: 'right',
+      displace: false
+    });
+
+    $('#close-menu').sidr({
+      side: 'right',
+      displace: false
+    });
+
+    $("#map").googleMap({
+        coords: [49.2827, -123.1207],
+        zoom: 12
+});
+
+  <% @listings.each do |listing| %>
+    $("#map").addMarker({
+      coords: [
+        <%= listing.latitude %>, 
+        <%= listing.longitude %>],
+      title: " ",
+      text: '<h4><%= listing.street_address %></h4><p>Email: <%= listing.user.email %></p><p>$<%= listing.price %>/month</p> <p><%= listing.area %> square feet</p> <p><a href="/listings/<%= listing.id %>/details"> Click for details!</a></p>'
+    });
+  <% end %>
+
+  });
+</script>
+
+</div>
